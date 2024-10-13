@@ -7,8 +7,6 @@ const server = createServer((req, res) => {
   const coffeePath = "coffee.html"
   const notFoundPath = "error.html"
 
-  res.writeHead(200, { "Content-Type": "text/html" })
-
   let responseFilePath
 
   switch (req.url) {
@@ -28,9 +26,18 @@ const server = createServer((req, res) => {
   fs.readFile(responseFilePath, (err, data) => {
     if (err) {
       console.log(err)
+      res.writeHead(500, { "Content-Type": "text/plain" })
+
       res.statusCode = 500
       return res.end("Error while reading html file")
     }
+    if (responseFilePath === notFoundPath) {
+      res.writeHead(404, { "Content-Type": "text/html" })
+      res.statusCode = 404
+    } else {
+      res.writeHead(200, { "Content-Type": "text/html" })
+    }
+
     return res.end(data)
   })
 })
