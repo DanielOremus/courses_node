@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="productList">
+      <h4>Table:</h4>
+      <table border="2px">
+        <%for (const product of products) {%>
+        <tr>
+          <td><img width="100px" src="<%=product.img%>" /></td>
+          <td><%=product.title%></td>
+          <td><%=product.amount%></td>
+          <td><%=product.price%></td>
+        </tr>
+        <%}%>
+      </table>
+      <h4>List:</h4>
+      <ul>
+        <%for (const product of products) {%>
+        <li>
+          <img width="100px" src="<%=product.img%>" /> <%=product.title%>
+          <%=product.amount%> <%=product.price%>
+        </li>
+        <%}%>
+      </ul>
+    </div>
+  </body>
+</html>
