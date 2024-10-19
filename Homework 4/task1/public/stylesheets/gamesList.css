@@ -1,0 +1,27 @@
+.games-list {
+  padding: 40px 40px;
+  border: black 2px solid;
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  column-gap: 20px;
+  justify-content: center;
+}
+
+.games-list > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: black 2px solid;
+  border-radius: 10px;
+  padding-inline: 20px;
+  align-items: center;
+  justify-content: space-evenly;
+  height: fit-content;
+  padding-block: 10px;
+  span {
+    white-space: nowrap;
+  }
+  img {
+    width: 140px;
+  }
+}

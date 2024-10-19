@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 24px;
+  width: fit-content;
+  button {
+    width: 100%;
+  }
+}

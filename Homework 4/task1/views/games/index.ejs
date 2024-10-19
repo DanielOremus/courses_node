@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Games</title>
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="stylesheet" href="stylesheets/gamesList.css" />
+  </head>
+  <body>
+    <div class="games-list">
+      <%for (const game of gamesList){%>
+      <div>
+        <img src="<%=game.imgSrc%>" />
+        <span><%=game.title%></span>
+        <span>Price: <%=game.price%></span>
+        <a href="games/<%=game.id%>">
+          <button>View Game</button>
+        </a>
+      </div>
+      <%}%>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add new Game</title>
+    <link rel="stylesheet" href="/stylesheets/newGameForm.css" />
+  </head>
+  <body>
+    <form action="add" method="post">
+      <label
+        >Img Src
+        <input type="text" name="imgSrc" required />
+      </label>
+      <label
+        >Title
+        <input type="text" name="title" required />
+      </label>
+      <label>
+        Description
+        <textarea name="description" required></textarea>
+      </label>
+      <label
+        >Price
+        <input type="number" name="price" required />
+      </label>
+
+      <div>
+        <button type="submit">Add Game</button>
+        <button type="Reset">Reset Form</button>
+      </div>
+    </form>
+  </body>
+</html>
