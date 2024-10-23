@@ -18,7 +18,12 @@ class CarController {
     res.render("cars/carForm", { car: null })
   }
   static async addCar(req, res) {
-    await CarModel.addNewCar({ imgSrc: req.file.filename, ...req.body })
+    const carObj = { ...req.body }
+    if (req.file) {
+      carObj.imgSrc = req.file.filename
+    }
+    await CarModel.addNewCar(carObj)
+
     res.redirect("/cars")
   }
   static async updateCar(req, res) {

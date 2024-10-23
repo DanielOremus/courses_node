@@ -2,10 +2,13 @@ import path from "path"
 import fs from "fs"
 
 export function removeImageSync(itemObj, pathToFolder) {
-  const imagePath = path.join(pathToFolder, itemObj.imgSrc)
-  if (itemObj.imgSrc && fs.existsSync(imagePath)) {
-    fs.unlinkSync(imagePath)
-    return true
+  if (!itemObj.imgSrc) {
+    return false
   }
-  return false
+  const imagePath = path.join(pathToFolder, itemObj.imgSrc)
+  if (!fs.existsSync(imagePath)) {
+    return false
+  }
+  fs.unlinkSync(imagePath)
+  return true
 }
