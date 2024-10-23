@@ -1,5 +1,6 @@
 import { writeFile, readFile } from "fs/promises"
 import keys from "../keys/key.mjs"
+import { log } from "console"
 
 class DatabaseManager {
   constructor(dbUrl) {
@@ -15,10 +16,11 @@ class DatabaseManager {
   async loadData() {
     try {
       const data = await readFile(this.path, "utf8")
+
       return JSON.parse(data)
     } catch (err) {
       if (err.code === "ENOENT") {
-        this.saveData([])
+        await this.saveData([])
         return []
       }
       throw new Error(err.message)
@@ -45,11 +47,24 @@ class DatabaseManager {
   }
   async updateItem(id, itemNewProperties) {
     try {
+      console.log(itemNewProperties)
+
       const data = await this.loadData()
       let itemIndex = data.findIndex((el) => el.id === id)
       if (itemIndex === -1) throw new Error(`Item by ${id} not found!`)
-      data[item] = { ...data, itemNewProperties }
-      this.saveData(data)
+      data[itemIndex] = { ...data[itemIndex], ...itemNewProperties }
+      await this.saveData(data)
+    } catch (err) {
+      throw new Error(err.message)
+    }
+  }
+  async deleteItem(id) {
+    try {
+      const data = await this.loadData()
+      const updatedData = data.filter((el) => el.id !== id)
+      if (data.length === updatedData.length)
+        throw new Error(`Item by ${id} not found!`)
+      await this.saveData(updatedData)
     } catch (err) {
       throw new Error(err.message)
     }

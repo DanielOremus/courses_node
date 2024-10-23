@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List</title>
+    <link rel="stylesheet" href="/stylesheets/cars/list.css" />
+    <script src="/javascript/RequestManager.js"></script>
+  </head>
+  <body>
+    <table class="cars-table">
+      <tr>
+        <th>Image</th>
+        <th>Brand</th>
+        <th>Year of Production</th>
+        <th>Plate Number</th>
+        <th>Actions</th>
+      </tr>
+      <%if (!carList.length){%>
+      <tr>
+        <td colspan="5">List is empty!</td>
+      </tr>
+      <%} else{%> <%for (const car of carList){%>
+      <tr>
+        <td><img src="/<%= car.imgSrc%>" /></td>
+        <td><%=car.brand%></td>
+        <td><%=car.yearOfProduction%></td>
+        <td><%=car.plateNumber%></td>
+        <td>
+          <a href="/cars/edit/<%=car.id%>">
+            <button>Edit</button>
+          </a>
+          <button
+            onclick="RequestManager.deleteRequest('/cars', { id: '<%= car.id%>' })"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+      <%}%> <%}%>
+    </table>
+    <div class="links-container">
+      <a href="cars/new">
+        <button>Add New Car</button>
+      </a>
+      <a href="/">
+        <button>Home</button>
+      </a>
+    </div>
+  </body>
+</html>

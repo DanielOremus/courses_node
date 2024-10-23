@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/cars/form.css" />
+  </head>
+  <body>
+    <form
+      action="<%= car ? '/cars/edit/' + car.id : '/cars/new'%>"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <label>
+        Image:
+        <input type="file" name="image" accept="images/*" />
+      </label>
+      <label
+        >Brand:
+        <input type="text" name="brand" value="<%= car?.brand%>" required />
+      </label>
+      <label
+        >Year of Production:
+        <input
+          type="number"
+          name="yearOfProduction"
+          value="<%= car?.yearOfProduction%>"
+          required
+        />
+      </label>
+      <label
+        >Plane Number:
+        <input
+          type="text"
+          name="plateNumber"
+          value="<%= car?.plateNumber%>"
+          required
+        />
+      </label>
+
+      <button type="submit"><%=car? 'Update' : 'Add'%></button>
+    </form>
+    <a href="/cars">
+      <button>Back to List</button>
+    </a>
+  </body>
+</html>

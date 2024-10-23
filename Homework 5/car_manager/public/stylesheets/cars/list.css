@@ -1,0 +1,22 @@
+.cars-table,
+.cars-table td,
+.cars-table th {
+  border: 2px solid;
+  text-align: center;
+}
+.cars-table {
+  img {
+    height: 100px;
+  }
+  button {
+    text-align: center;
+  }
+}
+.links-container {
+  a {
+    margin-left: 5px;
+  }
+}
+a {
+  text-decoration: none;
+}

@@ -1,8 +1,11 @@
 import { Router } from "express"
 
 const router = Router()
-router.get("/", async (req, res) => {
-  res.render("index", { title: "Express" })
+router.get("/", (req, res) => {
+  res.redirect("html/home.html")
+})
+router.get("/about", (req, res) => {
+  res.redirect("html/about.html")
 })
 
 export default router
