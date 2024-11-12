@@ -8,9 +8,6 @@ const router = Router()
 
 router.get("/", isAuthorized, ProductController.loadList)
 
-<<<<<<< HEAD
-router.delete("/", isAuthorized, ProductController.delete)
-=======
 router.get("/addProduct", isAuthorized, ProductController.renderForm)
 
 router.post(
@@ -19,7 +16,6 @@ router.post(
   checkSchema(ProductValidator.schema),
   ProductController.create
 )
->>>>>>> 4b02d4bcfbae6203b41634d702e8ed7892d75c8e
 
 router.delete("/", isAuthorized, ProductController.delete)
 
