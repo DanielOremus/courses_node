@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=metaTitle%></title>
+  </head>
+  <body>
+    <div class="products-container">
+      <%if(products.length>0){%>
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+        <%for (const product of products){%>
+        <tr>
+          <td><%=product.title%></td>
+          <td><%=product.price%></td>
+          <td><%=product.amount%></td>
+          <td>
+            <button>Edit</button>
+            <button>Delete</button>
+          </td>
+        </tr>
+        <%}%>
+      </table>
+      <%} else {%>
+      <span>There are no products at this moment</span>
+      <%}%>
+    </div>
+  </body>
+</html>

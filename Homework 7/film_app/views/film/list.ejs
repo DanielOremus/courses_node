@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+    <script src="/javascripts/RequestManager.js"></script>
+  </head>
+  <body>
+    <%- include('../sections/header.ejs')%>
+    <main>
+      <div class="list-container">
+        <% for (const film of films){%>
+        <div class="film-card">
+          <span class="film-title"> <%=film.title%> </span>
+          <span class="film-description"> <%=film.description%></span>
+          <span class="film-genre-container">
+            <%for (const genre of film.genre){%>
+            <span><%=genre%></span>
+            <%}%>
+          </span>
+          <a href="films/update/<%=film.id%>">
+            <button>Edit</button>
+          </a>
+          <button
+            onclick="RequestManager.deleteRequest('films', {id: '<%=film._id%>'})"
+          >
+            Delete
+          </button>
+        </div>
+        <%}%>
+      </div>
+    </main>
+    <%- include('../sections/footer.ejs')%>
+  </body>
+</html>
