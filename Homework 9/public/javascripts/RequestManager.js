@@ -8,7 +8,6 @@ class RequestManager {
         method: "DELETE",
         body: JSON.stringify(body),
       })
-
       const data = await response.json()
       if (data.success) {
         callback()

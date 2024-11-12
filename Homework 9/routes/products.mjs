@@ -21,4 +21,6 @@ router.post(
 )
 >>>>>>> 4b02d4bcfbae6203b41634d702e8ed7892d75c8e
 
+router.delete("/", isAuthorized, ProductController.delete)
+
 export default router
