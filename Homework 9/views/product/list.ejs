@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%=metaTitle%></title>
+    <script src="/javascripts/RequestManager.js"></script>
   </head>
   <body>
     <a href="/products/addProduct">Add Product</a>
@@ -23,7 +24,11 @@
           <td><%=product.amount%></td>
           <td>
             <button>Edit</button>
-            <button>Delete</button>
+            <button
+              onclick="RequestManager.deleteRequest('/products', {id: '<%=product.id%>'}, function(){window.location.reload()})"
+            >
+              Delete
+            </button>
           </td>
         </tr>
         <%}%>
