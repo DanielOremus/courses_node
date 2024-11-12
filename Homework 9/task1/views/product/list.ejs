@@ -10,7 +10,7 @@
     <a href="/products/addProduct">Add Product</a>
     <div class="products-container">
       <%if(products.length>0){%>
-      <table>
+      <table border="1px">
         <tr>
           <th>Title</th>
           <th>Price</th>
@@ -23,7 +23,6 @@
           <td><%=product.price%></td>
           <td><%=product.amount%></td>
           <td>
-            <button>Edit</button>
             <button
               onclick="RequestManager.deleteRequest('/products', {id: '<%=product.id%>'}, function(){window.location.reload()})"
             >
