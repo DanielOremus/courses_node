@@ -6,4 +6,6 @@ const router = Router()
 
 router.get("/", isAuthorized, ProductController.loadList)
 
+router.delete("/", isAuthorized, ProductController.delete)
+
 export default router
