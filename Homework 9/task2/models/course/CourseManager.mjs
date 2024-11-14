@@ -1,5 +1,5 @@
 import Course from "./Course.mjs"
-import MongooseCRUDManager from "../mongooseCRUDManager.mjs"
+import MongooseCRUDManager from "../MongooseCRUDManager.mjs"
 
 class CourseManager extends MongooseCRUDManager {
   async getList(filters) {

@@ -1,4 +1,4 @@
-import MongooseCRUDManager from "../mongooseCRUDManager.mjs"
+import MongooseCRUDManager from "../MongooseCRUDManager.mjs"
 import Student from "./Student.mjs"
 
 class StudentManager extends MongooseCRUDManager {
