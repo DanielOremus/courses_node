@@ -6,6 +6,7 @@
     <title><%=metaTitle%></title>
   </head>
   <body>
+    <%- include('../sections/header.ejs')%>
     <ul class="errors-container">
       <%for (const error of errors){%>
       <li><%=error.msg%></li>

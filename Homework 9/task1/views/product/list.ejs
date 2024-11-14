@@ -7,6 +7,8 @@
     <script src="/javascripts/RequestManager.js"></script>
   </head>
   <body>
+    <%- include('../sections/header.ejs')%>
+
     <a href="/products/addProduct">Add Product</a>
     <div class="products-container">
       <%if(products.length>0){%>
