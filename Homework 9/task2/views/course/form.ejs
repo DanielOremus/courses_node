@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/header.css">
+  </head>
+  <body>
+    <%- include('../sections/header.ejs')%>
+
+    <%if (errors?.length>0){%>
+    <div class="errors-container">
+      <ul>
+        <%for (const err of errors){%>
+        <li><%=err.msg%></li>
+        <%}%>
+      </ul>
+    </div>
+    <%}%>
+    <div class="form-container">
+      <form action="/courses/update/<%= course?.id%>" method="post">
+        <div>
+          <label
+            >Name:
+            <input type="text" name="name" value="<%=course?.name%>" />
+          </label>
+        </div>
+        <div>
+          <label
+            >Duration (days):
+            <input
+              type="number"
+              min="7"
+              name="duration"
+              value="<%=course?.duration%>"
+            />
+          </label>
+        </div>
+        <div>
+          <label
+            >Students:
+            <select name="students" multiple>
+              <%for (const student of students){%>
+              <option value="<%=student.id%>" <%= isOptSelected(course?.students, student.id, 'id') ? 'selected' : '' %>>
+                <%=student.firstName + ' ' + student.lastName%>
+              </option>
+              <%}%>
+            </select>
+          </label>
+        </div>
+        <button type="submit"><%=course?.id ? 'Update' : 'Create'%></button>
+      </form>
+    </div>
+  </body>
+</html>

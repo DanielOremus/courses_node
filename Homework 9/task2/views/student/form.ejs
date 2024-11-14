@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+  </head>
+  <body>
+    <%- include('../sections/header.ejs')%> <%if (errors?.length>0){%>
+    <div class="errors-container">
+      <ul>
+        <%for (const err of errors){%>
+        <li><%=err.msg%></li>
+        <%}%>
+      </ul>
+    </div>
+    <%}%>
+    <div class="form-container">
+      <form action="/students/update/<%= student?.id%>" method="post">
+        <div>
+          <label
+            >First name:
+            <input
+              type="text"
+              name="firstName"
+              value="<%=student?.firstName%>"
+            />
+          </label>
+        </div>
+        <div>
+          <label
+            >Last name:
+            <input type="text" name="lastName" value="<%=student?.lastName%>" />
+          </label>
+        </div>
+        <div>
+          <label
+            >Age:
+            <input
+              type="number"
+              min="16"
+              value="<%=student?.id ? student.age : '16'%>"
+              name="age"
+              value="<%=student?.age%>"
+            />
+          </label>
+        </div>
+        <div>
+          <label
+            >Average score:
+            <input
+              type="text"
+              name="averageScore"
+              value="<%=student?.averageScore%>"
+            />
+          </label>
+        </div>
+        <button type="submit"><%=student?.id ? 'Update' : 'Create'%></button>
+      </form>
+    </div>
+  </body>
+</html>

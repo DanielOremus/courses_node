@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List of Courses</title>
+    <script src="/javascripts/RequestManager.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+  </head>
+  <body>
+    <%- include('../sections/header.ejs')%>
+    <a href="/courses/update">Add new Course</a>
+    <div class="courses-container">
+      <%if (!courses.length){%>
+
+      <div>There are no courses at this moment</div>
+
+      <%} else{ for(const course of courses){ %>
+      <div class="course" style="border: 3px solid black; padding: 10px">
+        <p>Name: <%=course.name%></p>
+        <p>Duration (days): <%=course.duration%></p>
+        <p>
+          Students:
+          <br />
+          <%for (student of course.students){%>
+          <span><%=student.firstName + ' ' + student.lastName%></span>
+          <br />
+          <%}%>
+        </p>
+        <div class="seminars" style="border: 2px solid black; padding: 5px">
+          <a href="/courses/<%=course.id%>/seminars/add">Add Seminar</a>
+          <%for (const seminar of course.seminars){%>
+          <div class="seminar" style="border: 1px dashed black">
+            <ul>
+              <li>Topic: <%=seminar.topic%></li>
+              <li>
+                Responsible Student: <%=`${seminar.responsibleStudent.firstName}
+                ${seminar.responsibleStudent.lastName}`%>
+              </li>
+              <li>Lection Duration (hours): <%=seminar.lectionDuration%></li>
+            </ul>
+            <div class="actions">
+              <button
+                onclick="RequestManager.deleteRequest('/courses/<%=course.id%>/seminars', {id: '<%=seminar.id%>'}, function(){window.location.reload()})"
+              >
+                Delete Seminar
+              </button>
+            </div>
+          </div>
+          <%}%>
+        </div>
+        <div class="actions">
+          <a href="/courses/update/<%=course.id%>">
+            <button>Edit</button>
+          </a>
+          <button
+            onclick="RequestManager.deleteRequest('/courses', {id: '<%=course.id%>'}, function(){ window.location.reload()})"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <%} }%>
+  </body>
+</html>

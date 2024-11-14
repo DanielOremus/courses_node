@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%=title%></title>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+  </head>
+  <body>
+    <%- include('../sections/header.ejs')%> <%if (errors?.length>0){%>
+    <div class="errors-container">
+      <ul>
+        <%for (const err of errors){%>
+        <li><%=err.msg%></li>
+        <%}%>
+      </ul>
+    </div>
+    <%}%>
+    <div class="form-container">
+      <form action="/courses/<%=course.id%>/seminars/add" method="post">
+        <div>
+          <label
+            >Topic name:
+            <input type="text" name="topic" value="<%=seminar?.topic%>" />
+          </label>
+        </div>
+        <div>
+          <label
+            >Lection Duration (hours):
+            <input
+              type="number"
+              name="lectionDuration"
+              min="1"
+              value="<%=seminar?.duration || '1'%>"
+            />
+          </label>
+        </div>
+        <div>
+          <label
+            >Responsible Student:
+            <select name="responsibleStudent">
+              <%for(const student of students){%>
+              <option value="<%=student.id%>">
+                <%=student.firstName + ' ' + student.lastName%>
+              </option>
+              <%}%>
+            </select>
+          </label>
+        </div>
+        <button type="submit">Add</button>
+      </form>
+    </div>
+  </body>
+</html>

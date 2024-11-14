@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List of Students</title>
+    <script src="/javascripts/RequestManager.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/header.css" />
+  </head>
+  <body>
+    <%- include('../sections/header.ejs')%>
+
+    <a href="/students/update">Add new Student</a>
+    <table border="1px">
+      <tr>
+        <th>Full Name</th>
+        <th>Age</th>
+        <th>Average Score</th>
+        <th>Actions</th>
+      </tr>
+      <%if (!students.length){%>
+      <tr>
+        <td colspan="4">There are no students at this moment</td>
+      </tr>
+      <%} else{%> <% for(const student of students){ %>
+      <tr>
+        <td><%=student.fullName%></td>
+        <td><%=student.age%></td>
+        <td><%=student.averageScore%></td>
+        <td>
+          <a href="/students/update/<%=student.id%>">
+            <button>Edit</button>
+          </a>
+          <button
+            onclick="RequestManager.deleteRequest('/students', {id: '<%=student.id%>'}, function(){ window.location.reload()})"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+      <%} }%>
+    </table>
+  </body>
+</html>

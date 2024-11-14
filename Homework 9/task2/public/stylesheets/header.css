@@ -1,0 +1,14 @@
+.header {
+  border-bottom: 2px dashed rgb(167, 167, 167);
+  ul {
+    list-style: none;
+    display: flex;
+
+    justify-content: space-evenly;
+    li {
+      a {
+        font-size: 1.3rem;
+      }
+    }
+  }
+}
