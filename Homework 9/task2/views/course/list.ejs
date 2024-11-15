@@ -33,10 +33,12 @@
           <%for (const seminar of course.seminars){%>
           <div class="seminar" style="border: 1px dashed black">
             <ul>
+              <%console.log(seminar)%>
               <li>Topic: <%=seminar.topic%></li>
               <li>
-                Responsible Student: <%=`${seminar.responsibleStudent.firstName}
-                ${seminar.responsibleStudent.lastName}`%>
+                Responsible Student: <%= seminar.responsibleStudent ?
+                `${seminar.responsibleStudent.firstName}
+                ${seminar.responsibleStudent.lastName}` : 'Student not found'%>
               </li>
               <li>Lection Duration (hours): <%=seminar.lectionDuration%></li>
             </ul>
