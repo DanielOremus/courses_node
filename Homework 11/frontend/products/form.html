@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Форма</title>
+    <!-- Підключення CSS для стилів -->
+    <link rel="stylesheet" href="../style/main.css" />
+    <!-- Підключення необхідних скриптів -->
+    <script src="../scripts/RequestManager.js"></script>
+    <script src="../scripts/settings.js"></script>
+    <script src="../scripts/HeaderManager.js"></script>
+    <script src="../scripts/ProductsApiManager.js"></script>
+  </head>
+  <body>
+    <script>
+      // Використання класу HeaderManager для створення заголовка з меню
+      document.addEventListener("DOMContentLoaded", () => {
+        new HeaderManager("products/form.html", menuItems)
+      })
+    </script>
+    <h1>Створення новго продукту</h1>
+    <form id="product-form" method="post">
+      <div>
+        <label for="title">Назва: </label>
+        <input type="text" name="title" id="title" required />
+      </div>
+      <div>
+        <label for="price">Ціна: </label>
+        <input type="number" name="price" id="price" required min="1" />
+      </div>
+      <div>
+        <label for="description">Опис: </label>
+        <textarea name="description" id="description" required></textarea>
+      </div>
+      <button type="submit">Додати</button>
+    </form>
+
+    <div id="messages"></div>
+
+    <div id="errors"></div>
+
+    <script>
+      // Обробник подыъ для додавання/ продукту
+      document
+        .getElementById("product-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault() // Запобігаємо звичайному надсиланню форми
+
+          // Отримуємо дані з форми
+          const form = event.target
+          console.log(form)
+
+          const formData = {
+            title: form.title.value,
+            price: form.price.value,
+            description: form.description.value,
+          }
+
+          try {
+            // Виконуємо запит на додавання через ProductsApiManager
+            const response = await ProductsApiManager.addProduct(formData)
+          } catch (error) {
+            // Відображаємо повідомлення про помилку у разі невдалої авторизації
+            document.getElementById("messages").innerText =
+              "Помилка створення продукту: " + error.message
+          }
+        })
+    </script>
+  </body>
+</html>
