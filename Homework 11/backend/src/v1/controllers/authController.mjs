@@ -57,7 +57,7 @@ class AuthController {
         req.headers
       )
       res.json({
-        result: "Authorized",
+        msg: "Authorized",
         token,
       })
     } catch (err) {

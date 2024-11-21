@@ -20,7 +20,33 @@
         new HeaderManager("products/form.html", menuItems)
       })
     </script>
-    <div class="form-container"></div>
+    <h1>Створення новго продукту</h1>
+    <form id="product-form" method="post" enctype="multipart/form-data">
+      <div>
+        <label for="title">Назва: </label>
+        <input type="text" name="title" id="title" required />
+      </div>
+      <div>
+        <label for="price">Ціна: </label>
+        <input type="number" name="price" id="price" required min="1" />
+      </div>
+      <div>
+        <label for="description">Опис: </label>
+        <textarea name="description" id="description" required></textarea>
+      </div>
+      <div>
+        <label for="image">Фото:</label>
+        <input
+          type="file"
+          name="image"
+          id="image"
+          onchange="RequestManager.handleFileSelect(event, '#product-preview')"
+        />
+        <br />
+        <img src="" id="product-preview" width="300px" />
+      </div>
+      <button type="submit">Додати</button>
+    </form>
 
     <div id="messages"></div>
     <div id="protect-message" style="display: none">
@@ -29,61 +55,42 @@
     <div id="errors"></div>
 
     <script>
-      //Знаходження продукту за id
-      async function getProductData(id) {
-        try {
-          return await ProductsApiManager.getProductById(id)
-        } catch (error) {
-          console.log(error)
-        }
-      }
-      window.addEventListener("beforeunload", (e) => {
-        localStorage.removeItem("productId")
-      })
-      window.onload = async function () {
-        const productId = localStorage.getItem("productId")
-        let product = null
+      // Обробник подыъ для додавання/ продукту
 
-        if (productId) product = await getProductData(productId)
-
+      window.onload = function () {
+        const form = document.getElementById("product-form")
         const authMessageContainer = document.getElementById("protect-message")
 
         if (!RequestManager.isAuthenticated()) {
           authMessageContainer.style.display = "block"
+          form.style.display = "none"
           return
         }
 
-        const formObj = new FormManager(
-          [
-            { label: "Назва", type: "text", name: "title" },
-            { label: "Ціна", type: "number", name: "price" },
-            { label: "Опис", type: "text", name: "description" },
-            { label: "Фото", type: "file", name: "image" },
-          ],
-          product?._id
-            ? `Редагування ${product.title}`
-            : "Створення нового продукту",
-          submitCallback,
-          product || {}
-        )
-        formObj.render(".form-container")
+        form.addEventListener("submit", async function (event) {
+          event.preventDefault() // Запобігаємо звичайному надсиланню форми
 
-        async function submitCallback(data) {
+          // Отримуємо дані з форми
+          const form = event.target
+          console.log(form)
+
+          // const formData = {
+          //   title: form.title.value,
+          //   price: form.price.value,
+          //   description: form.description.value,
+          // }
+
           try {
             // Виконуємо запит на додавання через ProductsApiManager
+            const resData = await ProductsApiManager.addProduct(form)
 
-            if (product?._id)
-              return await ProductsApiManager.editProduct(
-                product._id,
-                formObj.form
-              )
-            await ProductsApiManager.addProduct(formObj.form)
+            console.log(resData)
           } catch (error) {
             // Відображаємо повідомлення про помилку у разі невдалої авторизації
             document.getElementById("messages").innerText =
               "Помилка створення продукту: " + error.message
           }
-        }
+        })
       }
     </script>
   </body>

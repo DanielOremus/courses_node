@@ -24,23 +24,33 @@
     <!-- Контейнер для таблиці з продуктами -->
     <div id="table-container"></div>
     <!-- Спіннер завантаження -->
-    <div class="loading" id="loading-spinner" style="display: none">
+    <div class="loading" id="loading-spinner" tyle="display: none">
       <div class="spinner"></div>
       Завантаження...
     </div>
+
     <!-- Повідомлення про помилку -->
     <div class="error-message" id="error-message" style="display: none">
       Виникла помилка при завантаженні даних.
     </div>
     <hr />
     <!-- Посилання для додавання нового продукту -->
-    <a href="../products/form.html">Додати новий продукт</a>
+    <a href="../products/form.html" id="add-product-link"
+      >Додати новий продукт</a
+    >
 
     <script>
       // Функція, що виконується при завантаженні сторінки
       window.onload = async function () {
-        const deleteRoute = "/delete-product"
+        const addLink = document.getElementById("add-product-link")
 
+        function displayAddLink() {
+          if (!RequestManager.isAuthenticated()) {
+            addLink.style.display = "none"
+          } else {
+            addLink.style.display = "static"
+          }
+        }
         // Функція для видалення продукту за ідентифікатором
         async function deleteFunction(id) {
           await ProductsApiManager.deleteProduct(id)
@@ -60,16 +70,18 @@
 
             // Отримання даних продуктів з сервера
             const data = await ProductsApiManager.getProducts()
+
             // Обробка зображень продуктів
             const productsList = data.products.map((prod) => ({
               ...prod,
-              image: "data:image;base64," + prod.image,
+              image: prod.image,
             }))
 
             if (productsList) {
-              const fields = { image: "", title: "Назва", price: "Ціна" }
+              const fields = { image: "Фото", title: "Назва", price: "Ціна" }
 
-              const createLinkFunction = (id) => `/edit-product/${id}`
+              const createLinkFunction = (id) => `./form.html`
+
               // Створення таблиці продуктів
               const table = ListDataManager.createTableFromList(
                 productsList,
@@ -94,6 +106,7 @@
         }
 
         // Виклик функції для отримання та відображення даних
+        displayAddLink()
         fetchDataAndDisplay()
       }
     </script>

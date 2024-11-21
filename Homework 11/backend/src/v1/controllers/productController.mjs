@@ -1,4 +1,4 @@
-import ProductsDBService from '../models/product/ProductsDBService.mjs'
+import ProductsDBService from "../models/product/ProductsDBService.mjs"
 
 class ProductController {
   // Метод для отримання всіх товарів
@@ -15,14 +15,14 @@ class ProductController {
         user: req.user,
       })
     } catch (error) {
-      res.status(500).json({ error: 'Error fetching products' })
+      res.status(500).json({ error: "Error fetching products" })
     }
   }
 
   static async registerForm(req, res) {
     try {
       if (!req.user) {
-        return res.status(403).json({ error: 'Access denied' })
+        return res.status(403).json({ error: "Access denied" })
       }
 
       const id = req.params.id
@@ -41,8 +41,10 @@ class ProductController {
   }
 
   static async registerProduct(req, res) {
+    console.log(req.body)
+
     if (!req.user) {
-      return res.status(403).json({ error: 'Access denied' })
+      return res.status(403).json({ success: false, errors: "Access denied" })
     }
 
     const data = req.body
@@ -52,7 +54,9 @@ class ProductController {
         ...req.body,
       }
       if (req.file?.buffer) {
-        productData.image = req.file.buffer.toString('base64')
+        productData.image =
+          `data:${req.file.mimetype};base64,` +
+          req.file.buffer.toString("base64")
       }
 
       if (req.params.id) {
@@ -61,25 +65,45 @@ class ProductController {
         await ProductsDBService.create(productData)
       }
 
-      res.status(200).json({ message: 'Product registered successfully' })
+      return res.json({
+        success: true,
+        message: "Product registered successfully",
+      })
     } catch (err) {
-      res
-        .status(500)
-        .json({ errors: [{ msg: err.message }], product: data, user: req.user })
+      res.status(500).json({
+        success: false,
+        errors: [{ msg: err.message }],
+        product: data,
+        user: req.user,
+      })
     }
   }
 
   // Метод для видалення товару (доступний тільки для адміністратора)
   static async deleteProduct(req, res) {
     if (!req.user) {
-      return res.status(403).json({ error: 'Access denied' })
+      return res.status(403).json({ error: "Access denied" })
     }
 
     try {
       await ProductsDBService.deleteById(req.body.id)
-      res.status(200).json({ message: 'Product deleted' })
+      res.status(200).json({ message: "Product deleted" })
     } catch (error) {
-      res.status(500).json({ error: 'Error deleting product' })
+      res.status(500).json({ error: "Error deleting product" })
+    }
+  }
+
+  static async getProductById(req, res) {
+    if (!req.user) {
+      return res.status(403).json({ success: false, errors: "Access denied" })
+    }
+
+    const id = req.params.id
+    try {
+      const product = await ProductsDBService.getById(id)
+      res.json({ success: true, data: product, user: req.user })
+    } catch (error) {
+      res.status(500).json({ success: false, msg: error.message })
     }
   }
 }

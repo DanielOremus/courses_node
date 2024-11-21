@@ -57,8 +57,7 @@ class RequestManager {
         }
         window.location.href = redirectRoute
       } else {
-        const result = await response.json()
-        this.showErrors(result.errors)
+        this.showErrors(resData.errors)
       }
     } catch (error) {
       console.error("Error:", error)
@@ -79,35 +78,43 @@ class RequestManager {
     errors.forEach((error) => {
       const errorMessage = document.createElement("div")
       errorMessage.classList.add("error-message")
-      errorMessage.textContent = error.message
+      errorMessage.textContent = error.message || error.msg
       errorsContainer.append(errorMessage)
     })
   }
 
-  // Метод для виконання POST запиту з даними форми
-  static async postFormRequest(
+  // Метод для виконання PUT/POST запиту з даними форми
+  static async putOrPostFormRequest(
+    method,
     url,
-    data,
+    form,
     redirectRoute,
     addAuthorization = true
   ) {
-    const headers = {
-      "Content-Type": "application/json",
-    }
+    const headers = {}
     if (addAuthorization && RequestManager.isAuthenticated()) {
       headers["Authorization"] = `Bearer ${localStorage.getItem("jwt_token")}`
     }
+    console.log(form)
+
     try {
-      const response = await fetch(url, {
-        method: "POST",
+      const response = await fetch(this.getServerRoute(url), {
+        method: method,
         headers: headers,
-        body: JSON.stringify(data),
+        body: new FormData(form),
       })
 
+      const resData = await response.json()
       if (response.ok) {
         window.location.href = redirectRoute
+      } else {
+        console.log(resData)
+        this.showErrors(resData.errors)
       }
-    } catch (error) {}
+      return resData
+    } catch (error) {
+      this.showErrors([{ message: error.message }])
+    }
   }
 
   // Загальний метод для виконання POST запиту
@@ -133,7 +140,7 @@ class RequestManager {
       headers["Authorization"] = `Bearer ${localStorage.getItem("jwt_token")}`
     }
 
-    const response = await fetch(route, {
+    const response = await fetch(this.getServerRoute(route), {
       method: "DELETE",
       headers: headers,
       body: JSON.stringify({ id }),
@@ -169,15 +176,13 @@ class RequestManager {
         method: "GET",
         headers: headers,
       })
+      const data = await response.json()
 
       if (response.ok) {
-        const data = await response.json()
         return data
-      } else {
-        const result = await response.json()
-        this.showErrors(result.errors)
-        return null
       }
+      this.showErrors(data.errors)
+      return null
     } catch (error) {
       console.error("Error:", error)
       this.showErrors([{ message: "Network error. Please try again later." }])
