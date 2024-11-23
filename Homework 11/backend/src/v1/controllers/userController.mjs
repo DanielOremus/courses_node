@@ -92,7 +92,7 @@ class UserController {
         return res.status(403).json({ success: false, errors: "Access denied" })
       }
       const user = await UsersDBService.deleteById(req.body.id)
-      const doLogout = user._id.equals(req.user._id)
+      const doLogout = user._id.equals(req.user.id)
 
       res.status(200).json({ success: true, doLogout })
     } catch (error) {

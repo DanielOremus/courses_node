@@ -15,8 +15,8 @@
   <body>
     <script>
       // Використання HeaderManager для створення заголовка з меню
-      document.addEventListener('DOMContentLoaded', () => {
-        new HeaderManager('auth/login.html', menuItems)
+      document.addEventListener("DOMContentLoaded", () => {
+        new HeaderManager("auth/login.html", menuItems)
       })
     </script>
     <h1>Вхід</h1>
@@ -24,7 +24,7 @@
     <form id="login-form">
       <!-- Поле для введення електронної пошти -->
       <div>
-        <label for="email">Email:</label>
+        <label for="email">Ел.пошта:</label>
         <input type="email" name="email" id="email" required />
       </div>
       <!-- Поле для введення пароля -->
@@ -39,11 +39,14 @@
     <div id="messages"></div>
     <!-- Контейнер для помилок -->
     <div id="errors"></div>
+    <div>
+      Нема облікового запису? <a href="./signup.html">Створіть новий</a>
+    </div>
     <script>
       // Додаємо обробник події для форми входу
       document
-        .getElementById('login-form')
-        .addEventListener('submit', async function (event) {
+        .getElementById("login-form")
+        .addEventListener("submit", async function (event) {
           event.preventDefault() // Запобігаємо звичайному надсиланню форми
 
           // Отримуємо дані з форми
@@ -57,12 +60,12 @@
             // Виконуємо запит на авторизацію через LoginApiManager
             const response = await LoginApiManager.login(formData, (data) => {
               // Зберігаємо токен у localStorage
-              localStorage.setItem('jwt_token', data.token)
+              localStorage.setItem("jwt_token", data.token)
             })
           } catch (error) {
             // Відображаємо повідомлення про помилку у разі невдалої авторизації
-            document.getElementById('messages').innerText =
-              'Помилка входу: ' + error.message
+            document.getElementById("messages").innerText =
+              "Помилка входу: " + error.message
           }
         })
     </script>
