@@ -23,7 +23,13 @@ class ListDataManager {
     return thead
   }
 
-  static createTableRow(item, fields, createLinkFunction, deleteFunction) {
+  static createTableRow(
+    item,
+    fields,
+    itemIdLabel,
+    createLinkFunction,
+    deleteFunction
+  ) {
     const row = document.createElement("tr")
 
     for (let key in fields) {
@@ -45,7 +51,7 @@ class ListDataManager {
       const editTd = document.createElement("td")
       const editLink = document.createElement("a")
       editLink.href = createLinkFunction(item._id)
-      editLink.onclick = () => localStorage.setItem("productId", item._id)
+      editLink.onclick = () => localStorage.setItem(itemIdLabel, item._id)
       editLink.textContent = "Редагувати"
       editTd.appendChild(editLink)
       row.appendChild(editTd)
@@ -61,7 +67,13 @@ class ListDataManager {
     return row
   }
 
-  static createTableFromList(data, fields, createLinkFunction, deleteFunction) {
+  static createTableFromList(
+    data,
+    fields,
+    itemIdLabel,
+    createLinkFunction,
+    deleteFunction
+  ) {
     // Створення таблиці
     const table = document.createElement("table")
     table.border = "1"
@@ -81,6 +93,7 @@ class ListDataManager {
       const row = this.createTableRow(
         item,
         fields,
+        itemIdLabel,
         createLinkFunction,
         deleteFunction
       )

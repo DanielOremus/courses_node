@@ -16,8 +16,7 @@ class AuthController {
     }
 
     try {
-      const user = new User({ username, email, password })
-      await user.save()
+      const user = await UsersDBService.create({ username, email, password })
 
       const token = prepareToken(
         { _id: user._id, username: user.username },

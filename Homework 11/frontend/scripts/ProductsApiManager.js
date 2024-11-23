@@ -3,9 +3,7 @@ class ProductsApiManager {
     return RequestManager.fetchData("/products")
   }
   static async getProductById(id) {
-    const jsonData = await RequestManager.fetchData(`/products/${id}`, true)
-
-    return jsonData.data
+    return RequestManager.fetchData(`/products/${id}`, true)
   }
   static async addProduct(formEl) {
     return RequestManager.putOrPostFormRequest(

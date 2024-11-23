@@ -91,11 +91,14 @@ class RequestManager {
     redirectRoute,
     addAuthorization = true
   ) {
+    console.log(1111)
+
     const headers = {}
     if (addAuthorization && RequestManager.isAuthenticated()) {
       headers["Authorization"] = `Bearer ${localStorage.getItem("jwt_token")}`
     }
     console.log(form)
+    console.log(new FormData(form))
 
     try {
       const response = await fetch(this.getServerRoute(url), {

@@ -1,14 +1,27 @@
 class UsersApiManager {
   static async getUsers() {
-    return RequestManager.fetchData('/users')
+    return RequestManager.fetchData("/users")
   }
-  static async addUser(data) {
-    return RequestManager.postRequest('/users', data)
+  static async addUser(formEl) {
+    return RequestManager.putOrPostFormRequest(
+      "POST",
+      "/users/register",
+      formEl,
+      "./list.html"
+    )
   }
-  static async editUser(id, data) {
-    return RequestManager.postRequest(`/users/${id}`, data)
+  static async getUserById(id) {
+    return RequestManager.fetchData(`/users/${id}`, true)
+  }
+  static async editUser(id, formEl) {
+    return RequestManager.putOrPostFormRequest(
+      "PUT",
+      `/users/register/${id}`,
+      formEl,
+      "./list.html"
+    )
   }
   static async deleteUser(id) {
-    return RequestManager.deleteRequest('/users', id)
+    return RequestManager.deleteRequest("/users", id)
   }
 }

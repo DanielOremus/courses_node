@@ -119,7 +119,7 @@ class FormManager {
     button.disabled = true
     button.addEventListener("click", () => {
       if (this.isValidForm()) {
-        this.submitCallback(this.proxyData)
+        this.submitCallback(this.proxyData, this.form)
       }
     })
     return button

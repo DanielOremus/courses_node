@@ -10,14 +10,14 @@
     <script src="../scripts/RequestManager.js"></script>
     <script src="../scripts/settings.js"></script>
     <script src="../scripts/HeaderManager.js"></script>
-    <script src="../scripts/ProductsApiManager.js"></script>
+    <script src="../scripts/UsersApiManager.js"></script>
     <script src="../scripts/FormManager.js"></script>
   </head>
   <body>
     <script>
       // Використання класу HeaderManager для створення заголовка з меню
       document.addEventListener("DOMContentLoaded", () => {
-        new HeaderManager("products/form.html", menuItems)
+        new HeaderManager("users/form.html", menuItems)
       })
     </script>
     <div class="form-container"></div>
@@ -30,7 +30,7 @@
 
     <script>
       window.addEventListener("beforeunload", (e) => {
-        localStorage.removeItem("productId")
+        localStorage.removeItem("userId")
       })
 
       window.onload = async function () {
@@ -41,43 +41,41 @@
             authMessageContainer.style.display = "block"
             return
           }
-          const productId = localStorage.getItem("productId")
-          let product = null
+          const userId = localStorage.getItem("userId")
+          let user = null
           try {
-            if (productId) {
-              product = (await ProductsApiManager.getProductById(productId))
-                ?.data
-              if (!product) throw new Error("Дані відсутні")
+            if (userId) {
+              user = (await UsersApiManager.getUserById(userId))?.data
+              if (!user) throw new Error("Дані відсутні")
             }
             const formObj = new FormManager(
               [
-                { label: "Назва", type: "text", name: "title" },
-                { label: "Ціна", type: "number", name: "price" },
-                { label: "Опис", type: "text", name: "description" },
-                { label: "Фото", type: "file", name: "image" },
+                { label: "Email", type: "email", name: "email" },
+                { label: "Ім'я", type: "text", name: "username" },
+                { label: "Пароль", type: "text", name: "password" },
               ],
-              product?._id
-                ? `Редагування ${product.title}`
-                : "Створення нового продукту",
-              submitCallback.bind(null, product?._id),
-              product || {}
+              user?._id
+                ? `Редагування ${user.username}`
+                : "Створення нового користувача",
+              submitCallback.bind(null, user?._id),
+              user || {}
             )
             formObj.render(".form-container")
           } catch (error) {
-            console.error(error)
+            const errorsContainer = document.querySelector("#errors")
+            errorsContainer.innerText = "Сталася помилка! Спробуйте пізніше!"
+            console.log(error)
           }
         }
 
-        async function submitCallback(prodId, data, formEl) {
+        async function submitCallback(userId, data, formEl) {
           try {
             console.log(data)
-            if (prodId)
-              return await ProductsApiManager.editProduct(prodId, formEl)
-            await ProductsApiManager.addProduct(formEl)
+            if (userId) return await UsersApiManager.editUser(userId, formEl)
+            await UsersApiManager.addUser(formEl)
           } catch (error) {
-            // Відображаємо повідомлення про помилку у разі невдалої авторизації
             document.getElementById("messages").innerText =
-              `Помилка ${prodId ? "оновлення" : "створення"} продукту: ` +
+              `Помилка ${prodId ? "оновлення" : "створення"} користувача: ` +
               error.message
           }
         }

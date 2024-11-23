@@ -9,11 +9,11 @@ class MongooseCRUDManager {
       let query = this.model.find(filters, projection)
       populateFields.forEach((field) => {
         // query = query.populate(field)
-        if (typeof field === 'string') {
+        if (typeof field === "string") {
           // Якщо поле передано як рядок
           query = query.populate(field)
         } else if (
-          typeof field === 'object' &&
+          typeof field === "object" &&
           field.fieldForPopulation &&
           field.requiredFieldsFromTargetObject
         ) {
@@ -27,7 +27,7 @@ class MongooseCRUDManager {
       const results = await query.exec()
       return results.map((doc) => doc.toObject())
     } catch (error) {
-      throw new Error('Error retrieving data: ' + error.message)
+      throw new Error("Error retrieving data: " + error.message)
     }
   }
 
@@ -37,20 +37,20 @@ class MongooseCRUDManager {
       const newItem = new this.model(data)
       return await newItem.save()
     } catch (error) {
-      throw new Error('Error creating data: ' + error.message)
+      throw new Error("Error creating data: " + error.message)
     }
   }
 
   // Пошук за id з використанням populateFields
-  async getById(id, populateFields = []) {
+  async getById(id, projection = {}, populateFields = []) {
     try {
-      let query = this.model.findById(id)
+      let query = this.model.findById(id, projection)
       populateFields.forEach((field) => {
         query = query.populate(field)
       })
       return await query.exec()
     } catch (error) {
-      throw new Error('Error finding data by id: ' + error.message)
+      throw new Error("Error finding data by id: " + error.message)
     }
   }
 
@@ -59,11 +59,11 @@ class MongooseCRUDManager {
     try {
       let query = this.model.findOne(filters, projection)
       populateFields.forEach((field) => {
-        if (typeof field === 'string') {
+        if (typeof field === "string") {
           // Якщо поле передано як рядок
           query = query.populate(field)
         } else if (
-          typeof field === 'object' &&
+          typeof field === "object" &&
           field.fieldForPopulation &&
           field.requiredFieldsFromTargetObject
         ) {
@@ -76,7 +76,7 @@ class MongooseCRUDManager {
       })
       return await query.exec()
     } catch (error) {
-      throw new Error('Error finding data by id: ' + error.message)
+      throw new Error("Error finding data by id: " + error.message)
     }
   }
   // Оновлення за id
@@ -86,7 +86,7 @@ class MongooseCRUDManager {
         .findByIdAndUpdate(id, data, { new: true, runValidators: true })
         .exec()
     } catch (error) {
-      throw new Error('Error updating data: ' + error.message)
+      throw new Error("Error updating data: " + error.message)
     }
   }
 
@@ -95,7 +95,7 @@ class MongooseCRUDManager {
     try {
       return await this.model.findByIdAndDelete(id).exec()
     } catch (error) {
-      throw new Error('Error deleting data: ' + error.message)
+      throw new Error("Error deleting data: " + error.message)
     }
   }
 }
