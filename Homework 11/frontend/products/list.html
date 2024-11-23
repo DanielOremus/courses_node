@@ -35,9 +35,7 @@
     </div>
     <hr />
     <!-- Посилання для додавання нового продукту -->
-    <a href="../products/form.html" id="add-product-link"
-      >Додати новий продукт</a
-    >
+    <a href="./form.html" id="add-product-link">Додати новий продукт</a>
 
     <script>
       // Функція, що виконується при завантаженні сторінки
@@ -53,7 +51,7 @@
         }
         // Функція для видалення продукту за ідентифікатором
         async function deleteFunction(id) {
-          await ProductsApiManager.deleteProduct(id)
+          const data = await ProductsApiManager.deleteProduct(id)
           window.location.reload()
         }
 

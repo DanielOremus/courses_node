@@ -52,7 +52,13 @@
               [
                 { label: "Email", type: "email", name: "email" },
                 { label: "Ім'я", type: "text", name: "username" },
-                { label: "Пароль", type: "text", name: "password" },
+                user
+                  ? {
+                      label: "Підтвердження пароля",
+                      type: "text",
+                      name: "confirmPassword",
+                    }
+                  : { label: "Пароль", type: "text", name: "password" },
               ],
               user?._id
                 ? `Редагування ${user.username}`

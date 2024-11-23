@@ -93,7 +93,7 @@ class MongooseCRUDManager {
   // Видалення за id
   async deleteById(id) {
     try {
-      return await this.model.findByIdAndDelete(id).exec()
+      return await this.model.findByIdAndDelete(id)
     } catch (error) {
       throw new Error("Error deleting data: " + error.message)
     }

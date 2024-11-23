@@ -34,7 +34,7 @@
     </div>
     <hr />
     <!-- Посилання для додавання нового користувача -->
-    <a href="/add-new-user">Додати користувача</a>
+    <a href="./form.html">Додати користувача</a>
 
     <script>
       // Функція, що виконується при завантаженні сторінки
@@ -44,7 +44,8 @@
         }
         // Функція для видалення користувача за ідентифікатором
         async function deleteFunction(id) {
-          await UsersApiManager.deleteUser(id)
+          const data = await UsersApiManager.deleteUser(id)
+          if (data.doLogout) return RequestManager.onLogout()
           window.location.reload()
         }
 

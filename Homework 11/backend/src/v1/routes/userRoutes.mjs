@@ -1,6 +1,7 @@
 import express from "express"
 import UserController from "../controllers/userController.mjs"
 import UserValidator from "../../../validators/userValidator.mjs"
+import UploadManager from "../../../middleware/UploadManager.mjs"
 
 import { checkSchema } from "express-validator"
 // import UploadManager from '../utils/UploadManager.mjs'
@@ -13,6 +14,7 @@ router.get("/:id", UserController.getUserById)
 
 router.post(
   "/register",
+  UploadManager.none(),
   // UploadManager.single('userImg'),
   checkSchema(UserValidator.userSchema),
   // UserValidator.checkFile,
@@ -20,7 +22,9 @@ router.post(
 )
 router.put(
   "/register/:id",
-  checkSchema(UserValidator.userSchema),
+  UploadManager.none(),
+
+  checkSchema((req) => UserValidator.userSchema(req)),
   UserController.registerUser
 )
 

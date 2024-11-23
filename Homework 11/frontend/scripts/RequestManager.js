@@ -1,7 +1,6 @@
 class RequestManager {
   // Базовий URL для API запитів
   static apiBase = "http://localhost:3000/api/v1"
-
   // Метод для отримання повного маршруту до сервера
   static getServerRoute(path) {
     return `${RequestManager.apiBase}${path}`
@@ -149,6 +148,7 @@ class RequestManager {
       body: JSON.stringify({ id }),
     })
     const data = await response.json()
+
     window.location.reload(true)
     return data
   }
