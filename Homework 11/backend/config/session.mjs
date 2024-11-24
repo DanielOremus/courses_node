@@ -1,7 +1,8 @@
-import session from 'express-session'
+import session from "express-session"
+import config from "./default.mjs"
 
 const sessionConfig = session({
-  secret: 'your_secret_key',
+  secret: config.session.secret,
   resave: false,
   saveUninitialized: false,
 })

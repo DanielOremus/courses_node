@@ -1,16 +1,16 @@
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken"
+import config from "../config/default.mjs"
 
 // Час дії токена
-const expiresIn = '60m'
+const expiresIn = "60m"
 
-// Секретний ключ для токена (повинен бути збережений у .env файлі)
-const tokenKey = 'Our Token Key' // Save in .env !!!
+const tokenKey = config.jwt.secret
 
 // Функція для парсингу Bearer токена та декодування користувача
 export function parseBearer(bearer, headers) {
   let token
   // Перевіряємо, чи токен починається з 'Bearer '
-  if (bearer.startsWith('Bearer ')) {
+  if (bearer.startsWith("Bearer ")) {
     token = bearer.slice(7) // Видаляємо 'Bearer ' з початку токена
   }
   try {
@@ -19,7 +19,7 @@ export function parseBearer(bearer, headers) {
     return decoded // Повертаємо декодовані дані
   } catch (err) {
     // Якщо токен невірний або закінчився його термін дії, буде згенеровано помилку
-    throw new Error('Invalid token')
+    throw new Error("Invalid token")
   }
 }
 
@@ -34,5 +34,5 @@ export function prepareToken(data, headers) {
 // Функція для підготовки секретного ключа з додаванням заголовків
 function prepareSecret(headers) {
   // Секретний ключ токена об'єднується з user-agent та accept-language заголовками
-  return tokenKey + headers['user-agent'] + headers['accept-language']
+  return tokenKey + headers["user-agent"] + headers["accept-language"]
 }

@@ -1,9 +1,17 @@
-import dotenv from 'dotenv'
+import dotenv from "dotenv"
 dotenv.config()
 
 export default Object.freeze({
-  databaseName: process.env.DATABASE_NAME,
-  databaseUrl: process.env.MONGODB_URL,
-  mongoURI: `${process.env.MONGODB_URL}${process.env.DATABASE_NAME}`,
+  db: {
+    databaseName: process.env.DATABASE_NAME,
+    databaseUrl: process.env.MONGODB_URL,
+    mongoURI: `${process.env.MONGODB_URL}${process.env.DATABASE_NAME}`,
+  },
+  session: {
+    secret: process.env.SESSION_SECRET,
+  },
   port: process.env.PORT,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
 })
